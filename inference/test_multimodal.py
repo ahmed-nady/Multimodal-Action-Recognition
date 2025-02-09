@@ -233,22 +233,19 @@ if __name__=='__main__':
     setting = dataset + '_' + evaluation_protocol
     number_classes =None
     if setting == 'ntu60_xsub':
-        multimodal_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/ntu60_XSub_X3dRGB_ME_v2_epoch_180.pth'
-        multimodal_checkpoint = '/home/a0nady01/ActionRecognition/AAActionRecognition/work_dirs/ProposedFramework_double_shifted_pose_chs/X3dTShiftD_RGB_epoch_170_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU60_XSub/best_top1_acc_epoch_4.pth'
+        multimodal_checkpoint = 'X3dTShiftD_RGB_epoch_170_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU60_XSub/best_top1_acc_epoch_4.pth'
         number_classes=60
     elif setting == 'ntu60_xview':
-        multimodal_checkpoint = '/home/a0nady01/ActionRecognition/AAActionRecognition/work_dirs/ProposedFramework_double_shifted_pose_chs/X3dTShiftD_RGB_epoch_190_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU60_XView/best_top1_acc_epoch_8.pth'
+        multimodal_checkpoint = 'X3dTShiftD_RGB_epoch_190_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU60_XView/best_top1_acc_epoch_8.pth'
         number_classes = 60
     elif setting == 'ntu120_xsub':
-        multimodal_checkpoint = '/home/a0nady01/ActionRecognition/AAActionRecognition/work_dirs/proposedFrameworkWACV/X3d_RGB_ME_X3d_Pose_SE_CBAM_spatial_efficient_temporal_skip_connection_alignment_ntu120_XSub/best_top1_acc_epoch_6.pth'
-        multimodal_checkpoint ='/home/a0nady01/ActionRecognition/AAActionRecognition/work_dirs/ProposedFramework_double_shifted_pose_chs/X3dTShiftD_RGB_epoch_205_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU120_XSub/best_top1_acc_epoch_8.pth'
+        multimodal_checkpoint ='X3dTShiftD_RGB_epoch_205_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU120_XSub/best_top1_acc_epoch_8.pth'
         number_classes = 120
     elif setting == 'ntu120_xset':
-        multimodal_checkpoint = '/home/a0nady01/ActionRecognition/AAActionRecognition/work_dirs/proposedFrameworkWACV/X3d_RGB_ME_X3d_Pose_CBAM_spatial_efficient_temporal_skip_connection_alignment_ntu120_XSet/best_top1_acc_epoch_10.pth'
+        multimodal_checkpoint = 'X3d_RGB_ME_X3d_Pose_CBAM_spatial_efficient_temporal_skip_connection_alignment_ntu120_XSet/best_top1_acc_epoch_10.pth'
         number_classes = 120
     elif setting =='toyota_xsub':
-        multimodal_checkpoint ='/home/a0nady01/ActionRecognition/AAActionRecognition/work_dirs/proposedFrameworkWACV/X3d_RGB_X3d_Pose_CBAM_spatial_efficient_temporal_skip_connection_alignment_Toyota_XSub_HRNet_epochs_20/best_top1_acc_epoch_15.pth'
-        multimodal_checkpoint ='/home/a0nady01/ActionRecognition/AAActionRecognition/work_dirs/ProposedFramework_double_shifted_pose_chs/X3dTShiftD_RGB_epoch_50_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_toyota_XSub_ntu120_epochs_20/best_top1_acc_epoch_11.pth'
+        multimodal_checkpoint ='X3dTShiftD_RGB_epoch_50_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_toyota_XSub_ntu120_epochs_20/best_top1_acc_epoch_11.pth'
         number_classes = 31
     # Constructing the DDP model
     model = RGBPoseAttentionActionRecognizer(attention ='CBAM_spatial_efficient_temporal',backbone_type='poseX3dTShiftSE',num_classes=number_classes)
