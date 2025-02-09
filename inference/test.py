@@ -65,9 +65,9 @@ if dataset=='ntu60':
             ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu60_xsub_val.txt'
             ann_file_test = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu60_xsub_val.txt'
         else:
-            ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/Action Recognition/ICIP_paper/ntu60_xview_pose_sim_train.pkl'
-            ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/Action Recognition/ICIP_paper/ntu60_xsub_pose_sim_val.pkl'
-            ann_file_test = '/home/a0nady01/ActionRecognition/mmaction2/Action Recognition/ICIP_paper/ntu60_xsub_pose_sim_val.pkl'
+            ann_file_train = 'ntu60_xview_pose_sim_train.pkl'
+            ann_file_val = 'ntu60_xsub_pose_sim_val.pkl'
+            ann_file_test = 'ntu60_xsub_pose_sim_val.pkl'
 
     else:
         if rgb_or_pose == 'rgb':
@@ -232,14 +232,10 @@ if __name__=='__main__':
     if rgb_or_pose == 'rgb':
         setting = dataset+'_'+evaluation_protocol
         if setting=='ntu60_xsub':
-            rgb_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/ntu60_XSub_X3dRGB_ME_v2_epoch_180.pth'
-            rgb_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/ntu60_XSub_X3dRGB_ME_v2_epoch_195.pth'
             rgb_checkpoint ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/epoch_200.pth'
         elif setting=='ntu60_xview':
-            rgb_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/RGB/ntu60_xview_X3dRGB_ME_epoch_195.pth'
             rgb_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/RGB/epoch_190.pth'
         elif setting =='ntu120_xsub':
-            rgb_checkpoint ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/ntu120_xsub_x3dRGB_ME_epoch_205.pth'
             rgb_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/epoch_205.pth'
         model = RGBActionRecognition(num_classes=120)
         load_checkpoint(model, rgb_checkpoint)
