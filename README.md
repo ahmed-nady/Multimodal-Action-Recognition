@@ -6,8 +6,19 @@ SmartHome datasets with up to a 72.8x reduction in FLOPs and up to a 48.6x reduc
  
 Paper: https://lnkd.in/ec-hWUzq
 
+## Results and Models
 
-# Inference 
+### NTU60
+
+### NTU120
+
+### PKU-MMD
+
+### Toyota-Smarthome
+
+## Train
+
+## Inference 
 You can use the following command to test a unimodal model.
 ```shell
 python inference/test.py
