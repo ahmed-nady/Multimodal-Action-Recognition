@@ -5,3 +5,8 @@ We present an efficient multimodal architecture (EPAM-Net) with a spatial tempor
 SmartHome datasets with up to a 72.8x reduction in FLOPs and up to a 48.6x reduction in the number of network parameters.
  
 Paper: https://lnkd.in/ec-hWUzq
+
+
+Unimodal inference
+
+Multimodal inference
