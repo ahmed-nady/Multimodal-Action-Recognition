@@ -7,6 +7,12 @@ SmartHome datasets with up to a 72.8x reduction in FLOPs and up to a 48.6x reduc
 Paper: https://lnkd.in/ec-hWUzq
 
 
-Unimodal inference
-
-Multimodal inference
+# Inference 
+You can use the following command to test a unimodal model.
+```shell
+python inference/test.py
+```
+You can use the following command to test a multimodal model.
+```shell
+python inference/test_multimodal.py
+```
