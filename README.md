@@ -18,15 +18,19 @@ Existing multimodal-based human action recognition approaches are either computa
 <img src ="./figures/EMAP-Net Architecture.png" width="1000"/>
 </div>
  
-## Results and Models
+# Result
+We report the mean Top-1 accuracy (%) for Toyota-Smarthome dataset and Top-1 accuracy (%) for other datasets using 1-clip per video.
+| Method | NTU-60 X-Sub | NTU-60 X-View | NTU-120 X-Sub | NTU-120 X-Set | Toyota Smarthome X-Sub |Toyota Smarthome X-View2| 
+| ------ | ------------ | ------------- | ------------- | ------------- | -------
+|  EPAM-Net  |     96.1%    |      99.0%    |      92.4%    |      94.3% |  71.7%  |67.8% |
 
-### NTU60
+# Prerequisites
 
-### NTU120
+- Python >= 3.6
+- PyTorch >= 1.1.0
+- We provide the dependency file of our experimental environment, you can install all dependencies by creating a new anaconda virtual environment and running `pip install -r requirements.txt `
 
-### PKU-MMD
-
-### Toyota-Smarthome
+# Data Preparation
 
 ## Train
 
@@ -38,4 +42,17 @@ python inference/test.py
 You can use the following command to test a multimodal model.
 ```shell
 python inference/test_multimodal.py
+```
+
+# Citation
+Please cite this work if you find it useful:
+```BibTex
+@article{abdelkawy2025epam,
+  title={EPAM-Net: An efficient pose-driven attention-guided multimodal network for video action recognition},
+  author={Abdelkawy, Ahmed and Ali, Asem and Farag, Aly},
+  journal={Neurocomputing},
+  pages={129781},
+  year={2025},
+  publisher={Elsevier}
+}
 ```
