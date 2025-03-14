@@ -21,7 +21,7 @@ Existing multimodal-based human action recognition approaches are either computa
 # Result
 We report the mean Top-1 accuracy (%) for Toyota-Smarthome dataset and Top-1 accuracy (%) for other datasets using 1-clip per video.
 | Method | NTU-60 X-Sub | NTU-60 X-View | NTU-120 X-Sub | NTU-120 X-Set | Toyota Smarthome X-Sub |Toyota Smarthome X-View2| 
-| ------ | ------------ | ------------- | ------------- | ------------- | -------
+| ------ | ------------ | ------------- | ------------- | ------------- |  ------------- |------------- |
 |  EPAM-Net  |     96.1%    |      99.0%    |      92.4%    |      94.3% |  71.7%  |67.8% |
 
 # Prerequisites
@@ -31,6 +31,11 @@ We report the mean Top-1 accuracy (%) for Toyota-Smarthome dataset and Top-1 acc
 - We provide the dependency file of our experimental environment, you can install all dependencies by creating a new anaconda virtual environment and running `pip install -r requirements.txt `
 
 # Data Preparation
+For Pose estimation, we utilize a Top-Down pose estimation approach instantiated with HRNet-W32 to extract 2D poses
+from videos and save the coordinate triplets (x, y, score) following [PoseConv work](https://github.com/open-mmlab/mmaction2/blob/main/tools/data/skeleton/README.md) 
+Here, links to the pre-processed skeleton annotations, you can directly download them and use them for training & testing.
+- NTURGB+D \[2D Skeleton\]: https://download.openmmlab.com/mmaction/v1.0/skeleton/data/ntu60_2d.pkl
+- NTURGB+D 120 [2D Skeleton]: https://download.openmmlab.com/mmaction/v1.0/skeleton/data/ntu120_2d.pkl
 
 ## Train
 
@@ -43,7 +48,8 @@ You can use the following command to test a multimodal model.
 ```shell
 python inference/test_multimodal.py
 ```
-
+## Acknowledgements
+This repo is based on [MMAction2]([https://github.com/Uason-Chen/CTR-GCN](https://github.com/open-mmlab/mmaction2)).
 # Citation
 Please cite this work if you find it useful:
 ```BibTex
