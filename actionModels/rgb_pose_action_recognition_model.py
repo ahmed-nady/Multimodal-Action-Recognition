@@ -6,33 +6,26 @@ import torch.nn as nn
 import torch
 import torch.nn.functional as F
 from mmcv.cnn import normal_init
-from mmaction.models.backbones import X3D,C3DLateralityPartSubnetFusion,C3D,X3DPose,ResNet3dSlowOnly,\
-    X3DPoseJointLimb,X3DTemporalShift,X3DTemporalShiftPose,X3DXLTemporalShift
-from mmaction.models.heads import X3DHead,I3DHead,X3DMarkovFusionHead
+from mmaction.models.backbones import X3D,C3D,X3DPose,ResNet3dSlowOnly,\
+    X3DTemporalShift,X3DTemporalShiftPose
+from mmaction.models.heads import X3DHead,I3DHead
 from collections import OrderedDict
 import re
-from .attention_module import SpatialTemporalAttention,EfficientTemporalAttention,SpatialEfficientTemporalAttention,CBAMSpatialEfficientTemporalAttention,\
-        ASpatialEfficientTemporalAttention,RGBChannelAttention
+from .attention_module import SpatialTemporalAttention,CBAMSpatialEfficientTemporalAttention
 from .NonLocalBlock import NonLocal3d
 
 
 class PoseActionRecognition(nn.Module):
-    def __init__(self,backbone_type='C3DLateralityPartSubnetFusion',num_classes=60,num_stages=4,conv1_stride=2):
+    def __init__(self,backbone_type='X3DPose',num_classes=60,num_stages=4,conv1_stride=2):
         super(PoseActionRecognition,self).__init__()
         in_channels = 256
-        if backbone_type == 'C3DLateralityPartSubnetFusion':
-            self.backbone = C3DLateralityPartSubnetFusion(in_channels=1,
-                                                               base_channels=32, num_stages=4, temporal_downsample=False)
-        elif backbone_type=='x3d':
+        
+        if backbone_type=='X3DPose':
             self.backbone = X3DPose(gamma_d=1,in_channels=17,base_channels=24,num_stages=3,se_ratio=None,use_swish=False,
                             stage_blocks=(5, 11, 7),spatial_strides=(2, 2, 2),conv1_stride=conv1_stride)
             in_channels = 216
-        elif backbone_type=='x3dSE':
+        elif backbone_type=='X3DPoseSE':
             self.backbone = X3DPose(gamma_d=1,in_channels=17,base_channels=24,num_stages=3,
-                            stage_blocks=(5, 11, 7),spatial_strides=(2, 2, 2),conv1_stride=conv1_stride)
-            in_channels = 216
-        elif backbone_type=='x3dJL':
-            self.backbone = X3DPoseJointLimb(gamma_d=1,in_channels=17,base_channels=24,num_stages=3,se_ratio=None,use_swish=False,
                             stage_blocks=(5, 11, 7),spatial_strides=(2, 2, 2),conv1_stride=conv1_stride)
             in_channels = 216
         elif backbone_type=='poseX3dTShiftSE':
@@ -40,11 +33,6 @@ class PoseActionRecognition(nn.Module):
                                                       stage_blocks=(5, 11, 7), spatial_strides=(2, 2, 2),
                                                       conv1_stride=1)
             in_channels = 216
-        elif backbone_type =='x3d_wide':
-            self.backbone = X3DPose(gamma_w=1, gamma_b=2.25, gamma_d=2.2, in_channels=17, base_channels=24, num_stages=4, se_ratio=None,
-                                    use_swish=False,
-                                    stage_blocks=(3,5, 11, 7), spatial_strides=(2,2, 2, 1), conv1_stride=conv1_stride)
-            in_channels = 432
         elif backbone_type=='SlowOnly':
             self.backbone = ResNet3dSlowOnly(depth=50,
                             pretrained=None,in_channels=17,base_channels=32,num_stages=3,out_indices=(2, ),
@@ -95,26 +83,20 @@ class RGBActionRecognition(nn.Module):
         return rgb_logits
 
 class RGBPoseAttentionActionRecognizer(nn.Module):
-    def __init__(self, RGBPretrained=None, PosePretrained=None, attention='temporal',backbone_type='C3DLateralityPartSubnetFusion',num_classes=120):
+    def __init__(self, RGBPretrained=None, PosePretrained=None, attention='temporal',backbone_type='poseX3dTShiftSE',num_classes=120):
         super().__init__()
         self.RGBPretrained = RGBPretrained
         self.PosePretrained = PosePretrained
         self.use_TShift = True
         if self.use_TShift:
             self.rgb_backbone = X3DTemporalShift(gamma_w=1, gamma_b=2.25, gamma_d=2.2,
-                                                 use_sta=False,se_style='half')#,se_style='all')  # stage_blocks=[5, 10, 25, 15]
-            # self.rgb_backbone = X3DXLTemporalShift(gamma_w=1, gamma_b=2.25, gamma_d=2.2,
-            #                                      use_sta=False,se_style='half')
-            #self.rgb_cls_head = X3DHead(num_classes=num_classes, in_channels=432)
+                                                 use_sta=False,se_style='half')#,se_style='all')   
             self.rgb_cls_head = I3DHead(num_classes=num_classes, in_channels=432)
         else:
-            self.rgb_backbone = X3D(gamma_w=1, gamma_b=2.25, gamma_d=2.2, use_sta=False)  # stage_blocks=[5, 10, 25, 15]
+            self.rgb_backbone = X3D(gamma_w=1, gamma_b=2.25, gamma_d=2.2, use_sta=False)   
             self.rgb_cls_head = X3DHead(num_classes=num_classes, in_channels=432)
 
-        if backbone_type=='C3DLateralityPartSubnetFusion':
-            self.pose_backbone = C3DLateralityPartSubnetFusion(in_channels=1,
-                                                        base_channels=32, num_stages=4, temporal_downsample=False)
-            in_channels = 256
+       
         elif backbone_type=='poseX3d':
             self.pose_backbone = X3DPose(gamma_d=1,in_channels=17,base_channels=24,num_stages=3,se_ratio=None,use_swish=False,
                                 stage_blocks=(5, 11, 7),spatial_strides=(2, 2, 2),conv1_stride=1)
@@ -129,12 +111,6 @@ class RGBPoseAttentionActionRecognizer(nn.Module):
                                                       conv1_stride=1)
             in_channels = 216
 
-        elif backbone_type == 'poseJLX3d':
-            self.pose_backbone = X3DPoseJointLimb(gamma_d=1, in_channels=17, base_channels=24, num_stages=3, se_ratio=None,
-                                             use_swish=False,
-                                             stage_blocks=(5, 11, 7), spatial_strides=(2, 2, 2),
-                                             conv1_stride=1)
-            in_channels = 216
         elif backbone_type=='SlowOnly':
             self.pose_backbone = ResNet3dSlowOnly(depth=50,
                             pretrained=None,in_channels=17,base_channels=32,num_stages=3,out_indices=(2, ),
@@ -148,27 +124,15 @@ class RGBPoseAttentionActionRecognizer(nn.Module):
         print('backbone_type: ',backbone_type)
         self.pose_cls_head = I3DHead(num_classes=num_classes, in_channels=in_channels)
 
-        # #===freeze pose backbone======
-        # for param in self.pose_backbone.parameters():
-        #     param.requires_grad = False
         self.attention_module = None
         self.attention = attention
-        #self.channel_attention = EfficientChannelTemporalAttention()
-        if attention == 'temporal':
-            #self.attention = TemporalAttention()
-            self.attention_module = EfficientTemporalAttention()
-        elif  attention =='spatial_temporal':
-            if backbone_type in ['poseX3d','poseJLX3d','poseX3dTShiftSE']:
+        if  attention =='spatial_temporal':
+            if backbone_type in ['poseX3d','poseX3dTShiftSE']:
                 self.attention_module = SpatialTemporalAttention(channels=216)
             else:
                 self.attention_module = SpatialTemporalAttention(channels=in_channels)
-        elif attention=='spatial_efficient_temporal':
-            self.attention_module = SpatialEfficientTemporalAttention(channels=in_channels)
         elif attention=='CBAM_spatial_efficient_temporal':
             self.attention_module = CBAMSpatialEfficientTemporalAttention(attention_type='nested')
-        elif attention =='ASpatialEfficientTemporalAttention':
-            self.attention_module = ASpatialEfficientTemporalAttention(attention_type='nested')
-
         elif attention=='self_attention':
             self.attention_module = NonLocal3d(in_channels=432,mode='dot_product')
         if self.attention_module is None:
@@ -204,8 +168,6 @@ class RGBPoseAttentionActionRecognizer(nn.Module):
         time_strided_pose_feats = torch.index_select(pose_feats, 2,
                                                      torch.tensor(time_strided_inds, device=pose_feats.device))
 
-        # channel_attention = self.channel_attention(time_strided_pose_feats)
-        # time_strided_pose_feats = time_strided_pose_feats * channel_attention
         if self.attention == 'self_attention':
             rgb_attended_feats = self.attention_module(rgb_feats,time_strided_pose_feats)
             guided_rgb_logits = self.rgb_cls_head(rgb_attended_feats)
@@ -216,5 +178,5 @@ class RGBPoseAttentionActionRecognizer(nn.Module):
             guided_rgb_logits = self.rgb_cls_head(rgb_feats+rgb_attended_feats)
 
         pose_logits = self.pose_cls_head(pose_feats)
-        return guided_rgb_logits, pose_logits #,adptive_score_fusion_logits
+        return guided_rgb_logits, pose_logits 
 
