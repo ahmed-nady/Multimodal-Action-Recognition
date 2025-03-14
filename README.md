@@ -14,7 +14,10 @@ Existing multimodal-based human action recognition approaches are either computa
 4. **Toyota SmartHome** trimmed dataset from [https://project.inria.fr/toyotasmarthome/](https://project.inria.fr/toyotasmarthome/)
 
 # Architecture of EPAM-Net
-![EMAP-Net Architecture](figures/EMAP-Net Architecture.png)
+<div align=center>
+<img src ="./figures/EMAP-Net Architecture.png" width="1000"/>
+</div>
+ 
 ## Results and Models
 
 ### NTU60
