@@ -34,9 +34,16 @@ We report the mean Top-1 accuracy (%) for Toyota-Smarthome dataset and Top-1 acc
 For Pose estimation, we utilize a Top-Down pose estimation approach instantiated with HRNet-W32 to extract 2D poses
 from videos and save the coordinate triplets (x, y, score) following [PoseConv work](https://github.com/open-mmlab/mmaction2/blob/main/tools/data/skeleton/README.md) 
 Here, links to the pre-processed skeleton annotations, you can directly download them and use them for training & testing.
+For NTU 60 and 120 dataset, you can use the script file data_preparation/prepare_ntu_dataset_annotations.py to split such pose annotations (ntu120_2d.pkl) into X-Sub, X-Set for NTU120 and similarly for NTU60.
 - NTURGB+D \[2D Skeleton\]: https://download.openmmlab.com/mmaction/v1.0/skeleton/data/ntu60_2d.pkl
 - NTURGB+D 120 [2D Skeleton]: https://download.openmmlab.com/mmaction/v1.0/skeleton/data/ntu120_2d.pkl
+- PKU [2D Skeleton]: https://drive.google.com/drive/folders/10LIsMsJIWuo3g3FfywT3f6HEy--db4T0?usp=drive_link
+- Toyota Smarthome [2D Skelton]: https://drive.google.com/drive/folders/1DtHneH1oH6YPJ2TdB3tfKcJcl2bTDb3d?usp=drive_link
 
+For RGB videos, We crop the RGB frames with the global box, which envelops all persons in the video, and resize them to a resolution of 224
+x 224 using script data_preparation/crop_RGBFrames_PKU.py (PKU dataset is an example). The cropped RGB frames are used as input for the RGB stream.
+
+For PKU, since it is an untrimmed dataset, we extract the actions clips from each video using the script data_preparation/pku_dataset_videos_split.py. 
 ## Train
 
 ## Inference 
