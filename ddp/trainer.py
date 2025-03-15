@@ -76,55 +76,7 @@ class Trainer:
 
     def init_weights(self):
         print('init super class')
-        # # initialize the remaining blocks
-        # for m in self.model.modules():
-        #     if isinstance(m, nn.Conv3d):
-        #         kaiming_init(m)
-        #     elif isinstance(m, _BatchNorm):
-        #         constant_init(m, 1)
-        #
-        # # ====load pretrained model weights======#
-        # loc = f"cuda:{self.gpu_id}"
-        # if isinstance(self.PosePretrained, str) and isinstance(self.RGBPretrained, str):
-        #     print(f"Looad checkpoint from {PosePretrained} at {self.gpu_id}")
-        #     state_dict = torch.load(PosePretrained, map_location=loc)
-        #     from collections import OrderedDict
-        #     import re
-        #     """
-        #     revise_keys (list): A list of customized keywords to modify the
-        #     state_dict in checkpoint. Each item is a (pattern, replacement)
-        #     pair of the regular expression operations. Default: strip
-        #     the prefix 'module.' by [(r'^module\\.', '')].
-        #     """
-        #     # strip prefix of state_dict
-        #     metadata = getattr(state_dict, '_metadata', OrderedDict())
-        #     state_dict_mod = OrderedDict()
-        #     for k, v in state_dict['state_dict'].items():
-        #         if 'backbone' in k:
-        #             state_dict_mod[re.sub('backbone.', '', k)] = v
-        #         elif 'cls_head' in k:
-        #             state_dict_mod[re.sub('cls_head.', '', k)] = v
-        #     # # Keep metadata in state_dict
-        #     state_dict_mod._metadata = metadata
-        #     self.model.pose_backbone.load_state_dict(state_dict_mod, strict=False)
-        #     self.model.pose_cls_head.load_state_dict(state_dict_mod, strict=False)
-        #
-        #     print(f"Looad checkpoint from {RGBPretrained} at {self.gpu_id}")
-        #     state_dict = torch.load(RGBPretrained, map_location=loc)
-        #     # strip prefix of state_dict
-        #     metadata = getattr(state_dict, '_metadata', OrderedDict())
-        #     state_dict_mod = OrderedDict()
-        #     for k, v in state_dict['state_dict'].items():
-        #         if 'backbone' in k:
-        #             state_dict_mod[re.sub('backbone.', '', k)] = v
-        #         elif 'cls_head' in k:
-        #             state_dict_mod[re.sub('cls_head.', '', k)] = v
-        #     # # Keep metadata in state_dict
-        #     state_dict_mod._metadata = metadata
-        #     self.model.rgb_backbone.load_state_dict(state_dict_mod, strict=False)
-        #     self.model.rgb_cls_head.load_state_dict(state_dict_mod, strict=False)
-        #
-        #     print('Loaded Successfully...!')
+    
     def _run_batch(self, source, targets, epochIterationNo):
         self.optimizer.zero_grad()
         output = self.model(source)
@@ -325,47 +277,47 @@ class RGBPoseTrainer(Trainer):
     def setPretrained(self,dataset,eval_setting):
         if dataset=='ntu60':
             if eval_setting=='xsub':
-                self.PosePretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/Pose/ntu60_xsub_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_235.pth'
-                self.RGBPretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/ntu60_xsub_x3dTShift_x3dhead_RGB_epoch_175.pth'
+                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/Pose/ntu60_xsub_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_235.pth'
+                self.RGBPretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/ntu60_xsub_x3dTShiftD_I3dHead_RGB_epoch_170.pth'
                 
             else:
                 #====ntu60 xview=====#
 
-                self.RGBPretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/RGB/epoch_165.pth'
+                self.RGBPretrained = '/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/RGB/epoch_165.pth'
                
-                self.PosePretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/Pose/ntu60_xview_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_230.pth'
+                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/Pose/ntu60_xview_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_230.pth'
                 
         elif dataset=='ntu120':
             if eval_setting=='xsub':
                 
                 #==========ntu120 xsub===#
-                self.PosePretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/Pose/ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth'
-                self.RGBPretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth'
+                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/Pose/ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth'
+                self.RGBPretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth'
             else:
                 # ==========ntu120 xset===#
                 
-                self.PosePretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSet/Pose/ntu120_xset_x3dTShiftPose_SE_best_top1_acc_epoch_290.pth'
-                self.RGBPretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSet/RGB/ntu120_xset_x3dTShiftD_RGB_epoch_195.pth'
+                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSet/Pose/ntu120_xset_x3dTShiftPose_SE_best_top1_acc_epoch_290.pth'
+                self.RGBPretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSet/RGB/ntu120_xset_x3dTShiftD_RGB_epoch_195.pth'
 
 
         elif dataset=='toyota':
             if eval_setting=='xsub':
                 #=============***************************toyota datset********
                
-                self.PosePretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/Toyota/XSub/Pose/toyota_xsub_x3dTShift_doubel_chs_SE_ntu120_best_top1_acc_epoch_95.pth'
-                self.RGBPretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/Toyota/XSub/RGB/toyota_xsub_x3dTShift_RGB_ntu120_epoch_50.pth'
+                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/Toyota/XSub/Pose/toyota_xsub_x3dTShift_doubel_chs_SE_ntu120_best_top1_acc_epoch_95.pth'
+                self.RGBPretrained ='/RGBPosePretrained/spatialTemporalAlignment/Toyota/XSub/RGB/toyota_xsub_x3dTShift_RGB_ntu120_epoch_50.pth'
 
             else:
-                self.PosePretrained ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/Toyota/XView2/Pose/toyota_xview2_x3dTShift_doubel_chs_SE_ntu120_best_top1_acc_epoch_80.pth'
-                self.RGBPretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/Toyota/XView2/RGB/toyota_xview2_x3dTShift_RGB_ntu120_best_top1_acc_epoch_60.pth'
+                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/Toyota/XView2/Pose/toyota_xview2_x3dTShift_doubel_chs_SE_ntu120_best_top1_acc_epoch_80.pth'
+                self.RGBPretrained = '/RGBPosePretrained/spatialTemporalAlignment/Toyota/XView2/RGB/toyota_xview2_x3dTShift_RGB_ntu120_best_top1_acc_epoch_60.pth'
 
         elif dataset=='pku':
             if eval_setting=='xsub':
-                self.PosePretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/PKU/XSub/Pose/pku_xsub_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
-                self.RGBPretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/PKU/XSub/RGB/pku_xsub_X3dTShift_RGB_best_top1_acc_epoch_205.pth'
+                self.PosePretrained = '/RGBPosePretrained/spatialTemporalAlignment/PKU/XSub/Pose/pku_xsub_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
+                self.RGBPretrained = '/RGBPosePretrained/spatialTemporalAlignment/PKU/XSub/RGB/pku_xsub_X3dTShift_RGB_best_top1_acc_epoch_205.pth'
             else:
-                self.PosePretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/PKU/XView/Pose/pku_xview_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
-                self.RGBPretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/PKU/XView/RGB/pku_xview_X3dTShift_RGB_epoch_155.pth'
+                self.PosePretrained = '/RGBPosePretrained/spatialTemporalAlignment/PKU/XView/Pose/pku_xview_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
+                self.RGBPretrained = '/RGBPosePretrained/spatialTemporalAlignment/PKU/XView/RGB/pku_xview_X3dTShift_RGB_epoch_155.pth'
          
     def prepare_state_dict(self,checkpoint,rgb_flag=True):
         if 'state_dict' in checkpoint:
@@ -413,8 +365,6 @@ class RGBPoseTrainer(Trainer):
 
     def init_weights(self):
 
-        # self.load_checkpoint()
-        # return
         # initialize the remaining blocks
         for m in self.model.modules():
             if isinstance(m, nn.Conv3d):
@@ -450,8 +400,7 @@ class RGBPoseTrainer(Trainer):
 
     def load_checkpoint(self):
         loc = f"cuda:{self.gpu_id}"
-        #checkpoint = torch.load('/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/work_dir/X3dRGB_X3dPose_spatial_temporal_alignment_ntu_60_xView/best_top1_acc_epoch_7.pth', map_location=loc)
-        checkpoint = torch.load('/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/work_dir/proposedFramework/X3d_m_RGB_epoch_60_X3d_s_Pose_spatial_temporal_alignment_toyota_XSub/best_top1_acc_epoch_10.pth',map_location=loc)
+         checkpoint = torch.load('/proposedFramework/X3d_m_RGB_epoch_60_X3d_s_Pose_spatial_temporal_alignment_toyota_XSub/best_top1_acc_epoch_10.pth',map_location=loc)
         if 'state_dict' in checkpoint:
             state_dict = checkpoint['state_dict']
         elif 'model_state_dict' in checkpoint:
@@ -489,29 +438,15 @@ class RGBPoseTrainer(Trainer):
             targets = targets.to(self.gpu_id)
             # self._run_batch(source, targets,epoch+self.iterationNo)
             self.optimizer.zero_grad()
-
-            # if self.adaptive_score:
-            #     rgb_preds, pose_preds,adaptive_score_fusion_logits = self.model(imgs, headmap_vols)
-            #     adaptive_loss_value = F.cross_entropy(adaptive_score_fusion_logits, targets)
-            # else:
+            
             rgb_preds, pose_preds = self.model(imgs, headmap_vols)
             if self.debug:
                 print("rgb_preds,pose_preds", rgb_preds, pose_preds)
 
-            # # Step 3: Create k-hot vectors for the batch
-            # top_k_indices_batch = torch.topk(pose_preds, 5).indices
-            # s_batch = torch.zeros_like(pose_preds)
-            # for i in range(rgb_preds.shape[0]):
-            #     s_batch[i, top_k_indices_batch[i]] = 1.0
+           
             rgb_loss_value = F.cross_entropy(rgb_preds, targets)
             pose_loss_value = F.cross_entropy(pose_preds, targets)
 
-
-            # rgb_loss_value = self.criterion(rgb_preds, targets)
-            # pose_loss_value = self.criterion(pose_preds, targets)
-            # if self.adaptive_score:
-            #     loss_value = pose_loss_value + rgb_loss_value+adaptive_loss_value
-            # else:
             loss_value = pose_loss_value + rgb_loss_value
             loss_value.backward()
             # ====gradient clipping====
@@ -521,15 +456,10 @@ class RGBPoseTrainer(Trainer):
             self.optimizer.step()
             self.scheduler.step()
 
-            # total_loss += loss_value.item() * imgs.shape[0]
-            # num_samples += imgs.shape[0]
             # ===calculate top-1, top-5 acc
             rgb_scores = rgb_preds.detach().cpu().numpy()
             pose_scores = pose_preds.detach().cpu().numpy()
             output_np = rgb_scores + pose_scores
-
-            # adaptive_score = adaptive_score_fusion_logits.detach().cpu().numpy()
-            # output_np = adaptive_score
             targets_np = targets.cpu().numpy()
             #output_np, targets_np = rgb_preds.detach().cpu().numpy(), targets.cpu().numpy()
             top_k_acc = self.evalMetric.top_k_accuracy(output_np, targets_np, topk=(1, 5))
@@ -562,8 +492,6 @@ class RGBPoseTrainer(Trainer):
                 #print(msg)
                 self.logger.info(msg)
 
-        # self.RLRPscheduler.step(total_loss / num_samples)
-        #self.scheduler.step()
     def evaluate(self, epoch):
         self.model.eval()
         stepsNo = len(self.test_dataLoader)
