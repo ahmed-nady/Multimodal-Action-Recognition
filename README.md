@@ -57,6 +57,11 @@ To train a new EPAM-Net, you need to train submodels for two inputs: skeleton jo
 ```shell
 python train/ddp_train_MMActionRecognition_model_pytorch.py --dataset 'pku' --evaluation_protocol 'xsub'
 ```
+## Comparison between Multimodal HAR Approaches
+<div align=center>
+<img src ="./figures/comparison_multimodal_HAR_approaches.png"/>
+</div>
+
 ## Acknowledgements
 This repo is based on [MMAction2]([https://github.com/Uason-Chen/CTR-GCN](https://github.com/open-mmlab/mmaction2)).
 # Citation
