@@ -22,9 +22,14 @@ from dataPrep.dataPrepMultiModality import CustomPoseDataset
 from core.evalMetrics import EvalMetrics
 from core.log_buffer import LogBuffer
 from functools import partial
+import argparse
 
-dataset= 'toyota'
-evaluation_protocol ='xsub'
+parser = argparse.ArgumentParser(description="Evaluation of EMAP-Net")
+parser.add_argument("--dataset", type=str,default='toyota', help="dataset")
+parser.add_argument("--evaluation_protocol", type=str,default='xsub', help="evaluation_protocol")
+
+args = parser.parse_args()
+
 def parse_losses(losses):
         """Parse the raw outputs (losses) of the network.
 
@@ -58,34 +63,7 @@ def parse_losses(losses):
 
         return log_vars
 
-if dataset=='ntu60':
 
-    if evaluation_protocol=='xsub':
-        ann_file_train = 'ntu60_xsub_train.pkl' 
-        ann_file_val = 'ntu60_xsub_val.pkl'
-    else:
-        ann_file_train = 'ntu60_xview_train.pkl'  
-        ann_file_val = 'ntu60_xview_val.pkl'
-elif dataset=='ntu120':
-        if evaluation_protocol == 'xsub':
-            ann_file_train = ntu120_xsub_train.pkl' 
-            ann_file_val = 'ntu120_xsub_val.pkl'
-        else:
-            ann_file_train = '/ntu120_xset_train.pkl'
-            ann_file_val = 'ntu120_xset_val.pkl'
-elif dataset == 'toyota':
-    if evaluation_protocol == 'xsub':
-        ann_file_train = 'train_CS.pkl'  # posec3d_witout_fingers
-        ann_file_val = 'test_CS.pkl'
-    else:
-        ann_file_train = 'train_CV2.pkl'  # posec3d_witout_fingers
-        ann_file_val = 'test_CV2.pkl'
-
-print("evaluation_protocol",evaluation_protocol)
-
-validation_annos = load(ann_file_val)
-
-test_data = CustomPoseDataset(dataset,validation_annos, mode='test',pose_input='joint')
 # test_dataLoader = DataLoader(test_data, batch_size, shuffle=False, num_workers=1,
 #     #                              sampler=DistributedSampler(test_data))
 
@@ -226,11 +204,40 @@ if __name__=='__main__':
     gpu_id =1
     num_clips=1
     average_clips =None#'prob'
+    if args.dataset=='ntu60':
+    
+        if args.evaluation_protocol=='xsub':
+            ann_file_train = 'ntu60_xsub_train.pkl' 
+            ann_file_val = 'ntu60_xsub_val.pkl'
+        else:
+            ann_file_train = 'ntu60_xview_train.pkl'  
+            ann_file_val = 'ntu60_xview_val.pkl'
+    elif args.dataset=='ntu120':
+            if args.evaluation_protocol == 'xsub':
+                ann_file_train = ntu120_xsub_train.pkl' 
+                ann_file_val = 'ntu120_xsub_val.pkl'
+            else:
+                ann_file_train = '/ntu120_xset_train.pkl'
+                ann_file_val = 'ntu120_xset_val.pkl'
+    elif args.dataset == 'toyota':
+        if args.evaluation_protocol == 'xsub':
+            ann_file_train = 'train_CS.pkl'  # posec3d_witout_fingers
+            ann_file_val = 'test_CS.pkl'
+        else:
+            ann_file_train = 'train_CV2.pkl'  # posec3d_witout_fingers
+            ann_file_val = 'test_CV2.pkl'
+    
+    print("evaluation_protocol",args.evaluation_protocol)
+    
+    validation_annos = load(ann_file_val)
+    
+    test_data = CustomPoseDataset(args.dataset,validation_annos, mode='test',pose_input='joint')
+
 
     out_pkl_file = 'results/multimodal_x3dTShiftRGB_X3dTShiftPose_' + dataset + '_' + evaluation_protocol + '.pkl'
 
     test_dataLoader = DataLoader(test_data, batch_size, shuffle=False, num_workers=4)
-    setting = dataset + '_' + evaluation_protocol
+    setting = args.dataset + '_' + args.evaluation_protocol
     number_classes =None
     if setting == 'ntu60_xsub':
         multimodal_checkpoint = '/pretrained_EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU60_XSub_best_top1_acc_epoch_4.pth'
