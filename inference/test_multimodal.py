@@ -233,19 +233,19 @@ if __name__=='__main__':
     setting = dataset + '_' + evaluation_protocol
     number_classes =None
     if setting == 'ntu60_xsub':
-        multimodal_checkpoint = '/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU60_XSub_best_top1_acc_epoch_4.pth'
+        multimodal_checkpoint = '/pretrained_EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU60_XSub_best_top1_acc_epoch_4.pth'
         number_classes=60
     elif setting == 'ntu60_xview':
-        multimodal_checkpoint = '/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU60_XView_best_top1_acc_8.pth'
+        multimodal_checkpoint = '/pretrained_EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU60_XView_best_top1_acc_8.pth'
         number_classes = 60
     elif setting == 'ntu120_xsub':
-        multimodal_checkpoint ='/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU120_XSub_best_top1_acc_8.pth'
+        multimodal_checkpoint ='/pretrained_EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU120_XSub_best_top1_acc_8.pth'
         number_classes = 120
     elif setting == 'ntu120_xset':
-        multimodal_checkpoint = '/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU120_XSet_best_top1_acc_10.pth'
+        multimodal_checkpoint = '/pretrained_EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU120_XSet_best_top1_acc_10.pth'
         number_classes = 120
     elif setting =='toyota_xsub':
-        multimodal_checkpoint ='/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_ToyotaSH_XSub_best_top1_acc_epoch_11.pth'
+        multimodal_checkpoint ='/pretrained_EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_ToyotaSH_XSub_best_top1_acc_epoch_11.pth'
         number_classes = 31
     # Constructing the DDP model
     model = RGBPoseAttentionActionRecognizer(attention ='CBAM_spatial_efficient_temporal',backbone_type='poseX3dTShiftSE',num_classes=number_classes)
