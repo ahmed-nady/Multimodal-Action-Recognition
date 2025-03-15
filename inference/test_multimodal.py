@@ -61,25 +61,25 @@ def parse_losses(losses):
 if dataset=='ntu60':
 
     if evaluation_protocol=='xsub':
-        ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/Action Recognition/pkl_files/ntu60_xsub_train.pkl' #posec3d_witout_fingers
-        ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/Action Recognition/pkl_files/ntu60_xsub_val.pkl'
+        ann_file_train = 'ntu60_xsub_train.pkl' 
+        ann_file_val = 'ntu60_xsub_val.pkl'
     else:
-        ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/ntu60_xview_train.pkl'  # posec3d_witout_fingers
-        ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/ntu60_xview_val.pkl'
+        ann_file_train = 'ntu60_xview_train.pkl'  
+        ann_file_val = 'ntu60_xview_val.pkl'
 elif dataset=='ntu120':
         if evaluation_protocol == 'xsub':
-            ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xsub_train.pkl'  # posec3d_witout_fingers
-            ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xsub_val.pkl'
+            ann_file_train = ntu120_xsub_train.pkl' 
+            ann_file_val = 'ntu120_xsub_val.pkl'
         else:
-            ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xset_train.pkl'
-            ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xset_val.pkl'
+            ann_file_train = '/ntu120_xset_train.pkl'
+            ann_file_val = 'ntu120_xset_val.pkl'
 elif dataset == 'toyota':
     if evaluation_protocol == 'xsub':
-        ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/SmartHomeDataset/pkl_files/train_CS.pkl'  # posec3d_witout_fingers
-        ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/SmartHomeDataset/pkl_files/test_CS.pkl'
+        ann_file_train = 'train_CS.pkl'  # posec3d_witout_fingers
+        ann_file_val = 'test_CS.pkl'
     else:
-        ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/SmartHomeDataset/pkl_files/train_CV2.pkl'  # posec3d_witout_fingers
-        ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/SmartHomeDataset/pkl_files/test_CV2.pkl'
+        ann_file_train = 'train_CV2.pkl'  # posec3d_witout_fingers
+        ann_file_val = 'test_CV2.pkl'
 
 print("evaluation_protocol",evaluation_protocol)
 
@@ -233,19 +233,19 @@ if __name__=='__main__':
     setting = dataset + '_' + evaluation_protocol
     number_classes =None
     if setting == 'ntu60_xsub':
-        multimodal_checkpoint = 'X3dTShiftD_RGB_epoch_170_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU60_XSub/best_top1_acc_epoch_4.pth'
+        multimodal_checkpoint = '/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU60_XSub_best_top1_acc_epoch_4.pth'
         number_classes=60
     elif setting == 'ntu60_xview':
-        multimodal_checkpoint = 'X3dTShiftD_RGB_epoch_190_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU60_XView/best_top1_acc_epoch_8.pth'
+        multimodal_checkpoint = '/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU60_XView_best_top1_acc_8.pth'
         number_classes = 60
     elif setting == 'ntu120_xsub':
-        multimodal_checkpoint ='X3dTShiftD_RGB_epoch_205_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU120_XSub/best_top1_acc_epoch_8.pth'
+        multimodal_checkpoint ='/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU120_XSub_best_top1_acc_8.pth'
         number_classes = 120
     elif setting == 'ntu120_xset':
-        multimodal_checkpoint = 'X3d_RGB_ME_X3d_Pose_CBAM_spatial_efficient_temporal_skip_connection_alignment_ntu120_XSet/best_top1_acc_epoch_10.pth'
+        multimodal_checkpoint = '/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_NTU120_XSet_best_top1_acc_10.pth'
         number_classes = 120
     elif setting =='toyota_xsub':
-        multimodal_checkpoint ='X3dTShiftD_RGB_epoch_50_X3dTShiftD_Pose_double_shifted_chs_CBAM_spatial_efficient_temporal_skip_connection_alignment_toyota_XSub_ntu120_epochs_20/best_top1_acc_epoch_11.pth'
+        multimodal_checkpoint ='/pretrained-EPAM_models/X3dRGBTShift_X3dPoseTShift_double_shifted_chs_CBAM_spatial_efficient_temporal_ToyotaSH_XSub_best_top1_acc_epoch_11.pth'
         number_classes = 31
     # Constructing the DDP model
     model = RGBPoseAttentionActionRecognizer(attention ='CBAM_spatial_efficient_temporal',backbone_type='poseX3dTShiftSE',num_classes=number_classes)
