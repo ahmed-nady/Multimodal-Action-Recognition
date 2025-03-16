@@ -48,7 +48,7 @@ You can use the following command to test a multimodal EPAM-Net on NTU 60, NTU 1
 python inference/test_multimodal.py --dataset 'toyota' --evaluation_protocol 'xsub'
 ```
 # Result
-We report the mean Top-1 accuracy (%) for Toyota-Smarthome dataset and Top-1 accuracy (%) for other datasets using 1-clip per video.
+We report the **mean accuracy (%)** for Toyota-Smarthome dataset and **Top-1 accuracy (%)** for other datasets using 1-clip per video.
 | Method | NTU-60 X-Sub | NTU-60 X-View | NTU-120 X-Sub | NTU-120 X-Set |PKU X-Sub| PKU X-View| Toyota SH X-Sub |Toyota SH X-View2| 
 | ------ | ------------ | ------------- | ------------- | ------------- | ------------- | ------------- |  ------------- |------------- |
 |  EPAM-Net  |     96.1%    |      99.0%    |      92.4%    |      94.3% |96.2% |98.4%  |  71.7%  |67.8% |
