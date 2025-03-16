@@ -60,24 +60,6 @@ class MMUniformSampleFrames(UniformSampleFrames):
     def __call__(self, results):
         num_frames = results['total_frames']
         modalities = []
-
-        # modality = 'Pose'
-        # pose_clip_len = self.clip_len[modality]
-        # if results['test_mode']:
-        #             inds = self._get_test_clips(num_frames, pose_clip_len)
-        # else:
-        #     inds = self._get_train_clips(num_frames, pose_clip_len)
-        # inds = np.mod(inds, num_frames)
-        # results[f'{modality}_inds'] = inds.astype(int)
-        # modalities.append(modality)
-
-        # #select clip_len frames for RGB from those which were selcected for Pose
-        # modality = 'RGB'
-        # inds = (inds.astype(int)).tolist()
-        # selected_inds = [inds[i] for i in range(0,len(inds),3)]
-        # results[f'{modality}_inds'] = np.asarray(selected_inds)
-        # modalities.append(modality)
-
         sorted_dict_keys = sorted(self.clip_len.keys())
         for modality in sorted_dict_keys:
             clip_len = self.clip_len[modality]
@@ -109,7 +91,7 @@ class MMUniformSampleFrames(UniformSampleFrames):
 
 @PIPELINES.register_module()
 class MMDecode(DecordInit, DecordDecode, PoseDecode):
-    def __init__(self, io_backend='disk',dataset='NTU',data_root='/media/hd1/NADY/ActionRecognitionDatasets/NTU60TSM224/', **kwargs):
+    def __init__(self, io_backend='disk',dataset='NTU',data_root='/NTU60TSM224/', **kwargs):
         # self.decordInit = DecordInit(io_backend=io_backend, **kwargs)
         # self.decordDecode = DecordDecode()
         DecordInit.__init__(self, io_backend=io_backend, **kwargs)
@@ -117,7 +99,7 @@ class MMDecode(DecordInit, DecordDecode, PoseDecode):
         self.io_backend = io_backend
         self.kwargs = kwargs
         self.file_client = None
-        self.data_root = data_root#'/media/hd1/NADY/ActionRecognitionDatasets/NTU60TSM224/'
+        self.data_root = data_root
         self.dataset_name = dataset
     def __call__(self, results):
         for mod in results['modality']:
@@ -145,29 +127,9 @@ class MMDecode(DecordInit, DecordDecode, PoseDecode):
                 if 'keypoint' in results:
                     results['keypoint'] = results['keypoint'][:, frame_inds].astype(
                         np.float32)
-                # if 'keypoint_score' not in results:
-                #     keypoint_score = [
-                #         np.ones(keypoint.shape[:-1], dtype=np.float32)
-                #         for keypoint in results['keypoint']]
-                #     results['keypoint_score'] = keypoint_score
-                # results['keypoint'] = self._load_kp(results['keypoint'], frame_inds)
-                # results['keypoint_score'] = self._load_kpscore(results['keypoint_score'], frame_inds)
+                 
             else:
                 raise NotImplementedError(f'MMDecode: Modality {mod} not supported')
-
-        # # We need to scale human keypoints to the new image size
-        # if 'imgs' in results:
-        #     real_img_shape = results['imgs'][0].shape[:2]
-        #     if real_img_shape != results['img_shape']:
-        #         oh, ow = results['img_shape']
-        #         nh, nw = real_img_shape
-        #
-        #         assert results['keypoint'].shape[-1] in [2, 3]
-        #         results['keypoint'][..., 0] *= (nw / ow)
-        #         results['keypoint'][..., 1] *= (nh / oh)
-        #
-        #         results['img_shape'] = real_img_shape
-        #         results['original_shape'] = real_img_shape
 
         return results
 
