@@ -25,6 +25,7 @@ Existing multimodal-based human action recognition approaches are either computa
 # Data Preparation
 **For Pose estimation**, we utilize a Top-Down pose estimation approach instantiated with HRNet-W32 to extract 2D poses
 from videos and save the coordinate triplets (x, y, score) following [PoseConv work](https://github.com/open-mmlab/mmaction2/blob/main/tools/data/skeleton/README.md) 
+
 Here, links to the pre-processed skeleton annotations, you can directly download them and use them for training & testing.
 For NTU 60 and 120 dataset, you can use the script file data_preparation/prepare_ntu_dataset_annotations.py to split such pose annotations (ntu120_2d.pkl) into X-Sub, X-Set for NTU120 and similarly for NTU60.
 - NTURGB+D \[2D Skeleton\]: https://download.openmmlab.com/mmaction/v1.0/skeleton/data/ntu60_2d.pkl
