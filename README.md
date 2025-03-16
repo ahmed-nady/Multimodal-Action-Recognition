@@ -49,9 +49,9 @@ python inference/test_multimodal.py --dataset 'toyota' --evaluation_protocol 'xs
 ```
 # Result
 We report the mean Top-1 accuracy (%) for Toyota-Smarthome dataset and Top-1 accuracy (%) for other datasets using 1-clip per video.
-| Method | NTU-60 X-Sub | NTU-60 X-View | NTU-120 X-Sub | NTU-120 X-Set | Toyota Smarthome X-Sub |Toyota Smarthome X-View2| 
-| ------ | ------------ | ------------- | ------------- | ------------- |  ------------- |------------- |
-|  EPAM-Net  |     96.1%    |      99.0%    |      92.4%    |      94.3% |  71.7%  |67.8% |
+| Method | NTU-60 X-Sub | NTU-60 X-View | NTU-120 X-Sub | NTU-120 X-Set |PKU X-Sub| PKU X-View| Toyota SH X-Sub |Toyota SH X-View2| 
+| ------ | ------------ | ------------- | ------------- | ------------- | ------------- | ------------- |  ------------- |------------- |
+|  EPAM-Net  |     96.1%    |      99.0%    |      92.4%    |      94.3% |96.2% |98.4%  |  71.7%  |67.8% |
 
 ## Train
 To train a new EPAM-Net, you need to train submodels for two inputs: skeleton joint, and RGB video, or you can download the pretrained submodels via [GoogleDrive](https://drive.google.com/drive/folders/1b4bUxybR4X8gvv9TJszYpiFOJNVdicdG?usp=sharing). After that, you can use the following command to train a unimodal model.
