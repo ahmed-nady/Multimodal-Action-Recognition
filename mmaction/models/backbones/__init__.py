@@ -1,20 +1,15 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from .agcn import AGCN
 from .c3d import C3D
-from .c3d_upperPartAware import  C3DUpperPartAware
-from .global_local_c3d import Global_Local_C3D
 from .mobilenet_v2 import MobileNetV2
 from .mobilenet_v2_tsm import MobileNetV2TSM
 from .resnet import ResNet
 from .resnet2plus1d import ResNet2Plus1d
 from .resnet3d import ResNet3d, ResNet3dLayer
-from .resnet3d_pyskl import ResNet3dPySkL
-from .resnet3d_partAware import PartAwareResNet3d
 from .resnet3d_csn import ResNet3dCSN
 from .resnet3d_fastonly import ResNet3dFastOnly
 from .resnet3d_slowfast import ResNet3dSlowFast
 from .resnet3d_slowonly import ResNet3dSlowOnly
-from .resnet3d_pyskl_slowonly import ResNet3dPYSKLSlowOnly
 from .resnet_audio import ResNetAudio
 from .resnet_tin import ResNetTIN
 from .resnet_tsm import ResNetTSM
@@ -27,8 +22,8 @@ from .x3dTemporalshift import  X3DTemporalShift
 from .x3dTShiftPose import X3DTemporalShiftPose
 
 __all__ = [
-    'C3D','C3DPartAware', 'ResNet', 'ResNet3d', 'ResNetTSM', 'ResNet2Plus1d',
+    'C3D','ResNet', 'ResNet3d', 'ResNetTSM', 'ResNet2Plus1d',
     'ResNet3dSlowFast', 'ResNet3dSlowOnly', 'ResNet3dCSN', 'ResNetTIN', 'X3D',
     'ResNetAudio', 'ResNet3dLayer', 'MobileNetV2TSM', 'MobileNetV2', 'TANet',
     'TimeSformer', 'STGCN', 'AGCN','ResNet3dFastOnly','X3DPose',
-'ResNet3dPySkL','X3DTemporalShift','X3DTemporalShiftPose']
+,'X3DTemporalShift','X3DTemporalShiftPose']
