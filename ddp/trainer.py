@@ -65,7 +65,9 @@ class Trainer:
         self.logger = logger
         self.log_buffer = log_buffer
         self.test_log_buffer = test_log_buffer
-        
+        # self.PosePretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/pose_best_top1_acc_epoch_330.pth'
+        # self.RGBPretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/rgb_best_top1_acc_epoch_235.pth'
+
         if pretrained:
             self.init_weights()
         # initialize model
@@ -251,11 +253,17 @@ class RGBPoseTrainer(Trainer):
     def __init__(self, model: torch.nn.Module, train_dataLoader: DataLoader, test_dataLoader: DataLoader,
                  optimizer: torch.optim.Optimizer, scheduler: torch.optim.lr_scheduler, loss_fn, evalMetric,
                  gpu_id: int, log_buffer, test_log_buffer, save_every: int, evaluate_every: int, logger,
-                 work_dir,dataset='ntu60',eval_protocol='xsub', mode='multi-gpus',pretrained=False) -> None:
+                 work_dir,dataset='ntu60',eval_protocol='xsub', mode='multi-gpus',PretrainedPose='',PretrainedRGB='') -> None:
 
         self.dataset= dataset
         self.eval_protocol=eval_protocol
-        self.setPretrained(self.dataset,self.eval_protocol)
+        self.PosePretrained = PretrainedPose
+        self.RGBPretrained = PretrainedRGB
+        if self.RGBPretrained !='' and self.PosePretrained !='':
+            pretrained = True
+        else:
+            pretrained = False
+
         print("self.PosePretrained",self.PosePretrained)
         print("self.RGBPretrained", self.RGBPretrained)
 
@@ -272,51 +280,7 @@ class RGBPoseTrainer(Trainer):
             self.logger.info(msg)
             #self.logger.info(print(model))
 
-    def setPretrained(self,dataset,eval_setting):
-        if dataset=='ntu60':
-            if eval_setting=='xsub':
-                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/Pose/ntu60_xsub_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_235.pth'
-                self.RGBPretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/ntu60_xsub_x3dTShiftD_I3dHead_RGB_epoch_170.pth'
-                
-            else:
-                #====ntu60 xview=====#
 
-                self.RGBPretrained = '/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/RGB/epoch_165.pth'
-               
-                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/Pose/ntu60_xview_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_230.pth'
-                
-        elif dataset=='ntu120':
-            if eval_setting=='xsub':
-                
-                #==========ntu120 xsub===#
-                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/Pose/ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth'
-                self.RGBPretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth'
-            else:
-                # ==========ntu120 xset===#
-                
-                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSet/Pose/ntu120_xset_x3dTShiftPose_SE_best_top1_acc_epoch_290.pth'
-                self.RGBPretrained ='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSet/RGB/ntu120_xset_x3dTShiftD_RGB_epoch_195.pth'
-
-
-        elif dataset=='toyota':
-            if eval_setting=='xsub':
-                #=============***************************toyota datset********
-               
-                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/Toyota/XSub/Pose/toyota_xsub_x3dTShift_doubel_chs_SE_ntu120_best_top1_acc_epoch_95.pth'
-                self.RGBPretrained ='/RGBPosePretrained/spatialTemporalAlignment/Toyota/XSub/RGB/toyota_xsub_x3dTShift_RGB_ntu120_epoch_50.pth'
-
-            else:
-                self.PosePretrained ='/RGBPosePretrained/spatialTemporalAlignment/Toyota/XView2/Pose/toyota_xview2_x3dTShift_doubel_chs_SE_ntu120_best_top1_acc_epoch_80.pth'
-                self.RGBPretrained = '/RGBPosePretrained/spatialTemporalAlignment/Toyota/XView2/RGB/toyota_xview2_x3dTShift_RGB_ntu120_best_top1_acc_epoch_60.pth'
-
-        elif dataset=='pku':
-            if eval_setting=='xsub':
-                self.PosePretrained = '/RGBPosePretrained/spatialTemporalAlignment/PKU/XSub/Pose/pku_xsub_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
-                self.RGBPretrained = '/RGBPosePretrained/spatialTemporalAlignment/PKU/XSub/RGB/pku_xsub_X3dTShift_RGB_best_top1_acc_epoch_205.pth'
-            else:
-                self.PosePretrained = '/RGBPosePretrained/spatialTemporalAlignment/PKU/XView/Pose/pku_xview_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
-                self.RGBPretrained = '/RGBPosePretrained/spatialTemporalAlignment/PKU/XView/RGB/pku_xview_X3dTShift_RGB_epoch_155.pth'
-         
     def prepare_state_dict(self,checkpoint,rgb_flag=True):
         if 'state_dict' in checkpoint:
             state_dict = checkpoint['state_dict']
