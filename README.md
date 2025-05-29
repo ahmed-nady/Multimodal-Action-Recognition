@@ -56,8 +56,40 @@ We report the **mean accuracy (%)** for Toyota-Smarthome dataset and **Top-1 acc
 ## Train
 To train a new EPAM-Net, you need to train submodels for two inputs: skeleton joint, and RGB video, or you can download the pretrained submodels via [GoogleDrive](https://drive.google.com/drive/folders/1b4bUxybR4X8gvv9TJszYpiFOJNVdicdG?usp=sharing). After that, you can use the following command to train a unimodal model.
 ```shell
-python train/ddp_train_MMActionRecognition_model_pytorch.py --dataset 'ntu120' --evaluation_protocol 'xsub' --skeleton_train_pkl '/datasets_annot/ntu120_xsub_train.pkl' --skeleton_test_pkl '/datasets_annot/ntu120_xsub_val.pkl' --PretrainedPose '/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/Pose/ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth' --PretrainedRGB '/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth'
+python train/ddp_train_MMActionRecognition_model_pytorch.py --dataset 'ntu120' --evaluation_protocol 'xsub' --skeleton_train_pkl '/datasets_annot/ntu120_xsub_train.pkl' --skeleton_test_pkl '/datasets_annot/ntu120_xsub_val.pkl' --PretrainedPose 'ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth' --PretrainedRGB 'ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth'
 ```
+The pretrained Pose and RGB model for each dataset are :
+dataset=='ntu60':
+    eval_setting=='xsub':
+      PretrainedPose ='ntu60_xsub_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_235.pth'
+      PretrainedRGB ='ntu60_xsub_x3dTShiftD_I3dHead_RGB_epoch_170.pth'
+    eval_setting=='xview':
+       PretrainedRGB = 'epoch_165.pth'
+       PretrainedPose ='ntu60_xview_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_230.pth'
+                
+dataset=='ntu120':
+    eval_setting=='xsub':
+       PretrainedPose ='ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth'
+       PretrainedRGB ='ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth'
+    eval_setting=='xset':
+       PretrainedPose ='ntu120_xset_x3dTShiftPose_SE_best_top1_acc_epoch_290.pth'
+       PretrainedRGB ='ntu120_xset_x3dTShiftD_RGB_epoch_195.pth'
+dataset=='toyota':
+  eval_setting=='xsub':
+                #=============***************************toyota datset********
+       PretrainedPose ='toyota_xsub_x3dTShift_doubel_chs_SE_ntu120_best_top1_acc_epoch_95.pth'
+       PretrainedRGB ='toyota_xsub_x3dTShift_RGB_ntu120_epoch_50.pth'
+  eval_setting=='xview2':
+       PretrainedPose ='toyota_xview2_x3dTShift_doubel_chs_SE_ntu120_best_top1_acc_epoch_80.pth'
+       PretrainedRGB = 'toyota_xview2_x3dTShift_RGB_ntu120_best_top1_acc_epoch_60.pth'
+
+dataset=='pku':
+   eval_setting=='xsub':
+      PretrainedPose = 'pku_xsub_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
+      PretrainedRGB = 'pku_xsub_X3dTShift_RGB_best_top1_acc_epoch_205.pth'
+   eval_setting=='xview'
+       PretrainedPose = 'pku_xview_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
+       PretrainedRGB = 'pku_xview_X3dTShift_RGB_epoch_155.pth'
 ## Comparison between Multimodal HAR Approaches
 <div align=center>
 <img src ="./figures/comparison_multimodal_HAR_approaches.png"/>
