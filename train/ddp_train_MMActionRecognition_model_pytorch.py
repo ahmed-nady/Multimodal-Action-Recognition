@@ -58,11 +58,11 @@ def worker_init_fn(worker_id, num_workers, rank, seed):
     torch.manual_seed(worker_seed)
 
 
-def main(rank, world_size, total_epoches, bsz, learning_rate, save_every, work_dir, dataset, evaluation_protocol,ann_file_train,ann_file_val):
+def main(rank, world_size, total_epoches, bsz, learning_rate, save_every, work_dir, dataset, evaluation_protocol,ann_file_train,ann_file_val,PretrainedPose,PretrainedRGB):
     ddp_setup(rank, world_size)
-    num_classes = num_classes_dict[dataset + '_' + evaluation_protocol]
-    batch_size = bsz
 
+    batch_size = bsz
+    num_classes = num_classes_dict[dataset + '_' + evaluation_protocol]
     print(f"{evaluation_protocol}: {ann_file_val}")
     train_ntu_annos = load(ann_file_train)
     validation_ntu_annos = load(ann_file_val)
@@ -106,7 +106,7 @@ def main(rank, world_size, total_epoches, bsz, learning_rate, save_every, work_d
     print("Start Trainer===")
     trainer = RGBPoseTrainer(model, train_dataLoader, test_dataLoader, optimizer, scheduler, loss_fn, evalMetric, rank,
                              log_buffer, test_log_buffer, save_every, 1, logger, work_dir, dataset, evaluation_protocol,
-                             mode='multi-gpus', pretrained=True)
+                             mode='multi-gpus', PretrainedPose=PretrainedPose,PretrainedRGB=PretrainedRGB)
     trainer.train(max_epochs=total_epoches)
     # trainer.do_inference()
     destroy_process_group()
@@ -128,44 +128,23 @@ if __name__ == "__main__":
                         default='ProposedFramework/X3dTShift_RGB_X3dTShiftPose_SE_16F_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU120_XSub')
     parser.add_argument("--dataset", type=str, default='ntu120', help="dataset")
     parser.add_argument("--evaluation_protocol", type=str, default='xsub', help="evaluation_protocol")
+    parser.add_argument("--skeleton_train_pkl", type=str, default='/datasets_annot/ntu120_xsub_train.pkl', help="skeleton train pickle file")
+    parser.add_argument("--skeleton_test_pkl", type=str, default='/datasets_annot/ntu120_xsub_val.pkl', help="skeleton test pickle file")
+    parser.add_argument("--PretrainedPose", type=str,
+                        default='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/Pose/ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth',
+                        help="pretrained X_shiftPose")
+    parser.add_argument("--PretrainedRGB", type=str,
+                        default='/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth',
+                        help="pretrained X_shiftRGB")
+
+
     print("round(initial_lr,4)", round(initial_lr, 4))
     args = parser.parse_args()
     if not os.path.exists(args.work_dir):
         os.makedirs(args.work_dir, exist_ok=True)
 
-    num_classes = num_classes_dict[args.dataset + '_' + args.evaluation_protocol]
-    if args.dataset == 'ntu60':
-    
-        if args.evaluation_protocol == 'xsub':
-            ann_file_train = '/skeleton/ntu60_xsub_train.pkl'
-            ann_file_val = '/skeleton/ntu60_xsub_val.pkl'
-        else:
-            ann_file_train = '/skeleton/ntu60_xview_train.pkl'
-            ann_file_val = '/skeleton/ntu60_xview_val.pkl'
-    elif args.dataset == 'ntu120':
-        if args.evaluation_protocol == 'xsub':
-            ann_file_train = '/skeleton/ntu120_xsub_train.pkl'
-            ann_file_val = '/skeleton/ntu120_xsub_val.pkl'
-        else:
-            ann_file_train = '/skeletonntu120_xset_train.pkl'
-            ann_file_val = '/skeleton/ntu120_xset_val.pkl'
-    elif args.dataset == 'toyota':
-        if args.evaluation_protocol == 'xsub':
-            ann_file_train = '/SmartHomeDataset/train_CS.pkl'
-            ann_file_val = '/SmartHomeDataset/test_CS.pkl'
-        else:
-            ann_file_train = '/SmartHomeDataset/train_CV2.pkl'
-            ann_file_val = '/SmartHomeDataset/test_CV2.pkl'
-    
-    elif args.dataset == 'pku':
-        if args.evaluation_protocol == 'xsub':
-            ann_file_train = '/PKU-MMD/pku_xsub_train.pkl'
-            ann_file_val = '/PKU-MMD/pku_xsub_test.pkl'
-        else:
-            ann_file_train = '/PKU-MMD/pku_xview_train.pkl'
-            ann_file_val = '/PKU-MMD/pku_xview_test.pkl'
     
     world_size = torch.cuda.device_count()
     mp.spawn(main, args=(
     world_size, args.total_epochs, args.batch_size, args.learning_rate, args.save_every, args.work_dir, args.dataset,
-    args.evaluation_protocol,ann_file_train,ann_file_val), nprocs=world_size)
+    args.evaluation_protocol,args.skeleton_train_pkl,args.skeleton_test_pkl,args.PretrainedPose,args.PretrainedRGB), nprocs=world_size)
