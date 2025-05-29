@@ -56,7 +56,7 @@ We report the **mean accuracy (%)** for Toyota-Smarthome dataset and **Top-1 acc
 ## Train
 To train a new EPAM-Net, you need to train submodels for two inputs: skeleton joint, and RGB video, or you can download the pretrained submodels via [GoogleDrive](https://drive.google.com/drive/folders/1b4bUxybR4X8gvv9TJszYpiFOJNVdicdG?usp=sharing). After that, you can use the following command to train a unimodal model.
 ```shell
-python train/ddp_train_MMActionRecognition_model_pytorch.py --dataset 'ntu120' --evaluation_protocol 'xsub' --skeleton_train_pkl '/datasets_annot/ntu120_xsub_train.pkl' --skeleton_test_pkl" '/datasets_annot/ntu120_xsub_val.pkl' --PretrainedPose '/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/Pose/ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth' --PretrainedRGB '/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth'
+python train/ddp_train_MMActionRecognition_model_pytorch.py --dataset 'ntu120' --evaluation_protocol 'xsub' --skeleton_train_pkl '/datasets_annot/ntu120_xsub_train.pkl' --skeleton_test_pkl '/datasets_annot/ntu120_xsub_val.pkl' --PretrainedPose '/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/Pose/ntu120_xsub_x3dTShiftPose_SE_best_top1_acc_epoch_235.pth' --PretrainedRGB '/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/ntu120_xsub_x3dTShiftD_I3Dhead_RGB_epoch_205.pth'
 ```
 ## Comparison between Multimodal HAR Approaches
 <div align=center>
