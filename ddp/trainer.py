@@ -65,9 +65,7 @@ class Trainer:
         self.logger = logger
         self.log_buffer = log_buffer
         self.test_log_buffer = test_log_buffer
-        # self.PosePretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/pose_best_top1_acc_epoch_330.pth'
-        # self.RGBPretrained = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/rgb_best_top1_acc_epoch_235.pth'
-
+        
         if pretrained:
             self.init_weights()
         # initialize model
@@ -400,7 +398,7 @@ class RGBPoseTrainer(Trainer):
 
     def load_checkpoint(self):
         loc = f"cuda:{self.gpu_id}"
-         checkpoint = torch.load('/proposedFramework/X3d_m_RGB_epoch_60_X3d_s_Pose_spatial_temporal_alignment_toyota_XSub/best_top1_acc_epoch_10.pth',map_location=loc)
+        checkpoint = torch.load('/proposedFramework/X3d_m_RGB_epoch_60_X3d_s_Pose_spatial_temporal_alignment_toyota_XSub/best_top1_acc_epoch_10.pth',map_location=loc)
         if 'state_dict' in checkpoint:
             state_dict = checkpoint['state_dict']
         elif 'model_state_dict' in checkpoint:
