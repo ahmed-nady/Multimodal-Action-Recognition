@@ -87,50 +87,20 @@ class RGBPoseAttentionActionRecognizer(nn.Module):
         super().__init__()
         self.RGBPretrained = RGBPretrained
         self.PosePretrained = PosePretrained
-        self.use_TShift = True
-        if self.use_TShift:
-            self.rgb_backbone = X3DTemporalShift(gamma_w=1, gamma_b=2.25, gamma_d=2.2,
-                                                 use_sta=False,se_style='half')#,se_style='all')   
-            self.rgb_cls_head = I3DHead(num_classes=num_classes, in_channels=432)
-        else:
-            self.rgb_backbone = X3D(gamma_w=1, gamma_b=2.25, gamma_d=2.2, use_sta=False)   
-            self.rgb_cls_head = X3DHead(num_classes=num_classes, in_channels=432)
 
-       
-        elif backbone_type=='poseX3d':
-            self.pose_backbone = X3DPose(gamma_d=1,in_channels=17,base_channels=24,num_stages=3,se_ratio=None,use_swish=False,
-                                stage_blocks=(5, 11, 7),spatial_strides=(2, 2, 2),conv1_stride=1)
-            in_channels = 216
-        elif backbone_type == 'poseX3dSE':
-            self.pose_backbone = X3DPose(gamma_d=1, in_channels=17, base_channels=24, num_stages=3,
-                                         stage_blocks=(5, 11, 7), spatial_strides=(2, 2, 2), conv1_stride=1)
-            in_channels = 216
-        elif backbone_type=='poseX3dTShiftSE':
-            self.pose_backbone = X3DTemporalShiftPose(gamma_d=1, in_channels=17, base_channels=24, num_stages=3,
-                                                      stage_blocks=(5, 11, 7), spatial_strides=(2, 2, 2),
-                                                      conv1_stride=1)
-            in_channels = 216
+        self.rgb_backbone = X3DTemporalShift(gamma_w=1, gamma_b=2.25, gamma_d=2.2,
+                                             use_sta=False,se_style='half')#,se_style='all')
+        self.rgb_cls_head = I3DHead(num_classes=num_classes, in_channels=432)
 
-        elif backbone_type=='SlowOnly':
-            self.pose_backbone = ResNet3dSlowOnly(depth=50,
-                            pretrained=None,in_channels=17,base_channels=32,num_stages=3,out_indices=(2, ),
-                            stage_blocks=(4, 6, 3),conv1_stride_s=1,pool1_stride_s=1,inflate=(0, 1, 1),spatial_strides=(2, 2, 2),
-                            temporal_strides=(1, 1, 1),dilations=(1, 1, 1))
-            in_channels = 512
-        else:
-            self.pose_backbone = C3D(in_channels=17,base_channels=32, num_stages=3,
-                                                               temporal_downsample=False)
-            in_channels = 256
-        print('backbone_type: ',backbone_type)
-        self.pose_cls_head = I3DHead(num_classes=num_classes, in_channels=in_channels)
+        self.pose_backbone = X3DTemporalShiftPose(gamma_d=1, in_channels=17, base_channels=24, num_stages=3,
+                                                  stage_blocks=(5, 11, 7), spatial_strides=(2, 2, 2),
+                                                  conv1_stride=1)
+        self.pose_cls_head = I3DHead(num_classes=num_classes, in_channels=216)
 
         self.attention_module = None
         self.attention = attention
         if  attention =='spatial_temporal':
-            if backbone_type in ['poseX3d','poseX3dTShiftSE']:
-                self.attention_module = SpatialTemporalAttention(channels=216)
-            else:
-                self.attention_module = SpatialTemporalAttention(channels=in_channels)
+             self.attention_module = SpatialTemporalAttention(channels=216)
         elif attention=='CBAM_spatial_efficient_temporal':
             self.attention_module = CBAMSpatialEfficientTemporalAttention(attention_type='nested')
         elif attention=='self_attention':
