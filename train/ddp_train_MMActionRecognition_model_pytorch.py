@@ -60,7 +60,7 @@ def worker_init_fn(worker_id, num_workers, rank, seed):
 
 def main(rank, world_size, total_epoches, bsz, learning_rate, save_every, work_dir, dataset, evaluation_protocol,ann_file_train,ann_file_val):
     ddp_setup(rank, world_size)
-
+    num_classes = num_classes_dict[dataset + '_' + evaluation_protocol]
     batch_size = bsz
 
     print(f"{evaluation_protocol}: {ann_file_val}")
