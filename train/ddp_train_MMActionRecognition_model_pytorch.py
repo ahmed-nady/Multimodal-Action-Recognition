@@ -58,7 +58,7 @@ def worker_init_fn(worker_id, num_workers, rank, seed):
     torch.manual_seed(worker_seed)
 
 
-def main(rank, world_size, total_epoches, bsz, learning_rate, save_every, work_dir, dataset, evaluation_protocol):
+def main(rank, world_size, total_epoches, bsz, learning_rate, save_every, work_dir, dataset, evaluation_protocol,ann_file_train,ann_file_val):
     ddp_setup(rank, world_size)
 
     batch_size = bsz
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     parser.add_argument('--total_epochs', default=10, type=int, help='Total number of epoches')
     parser.add_argument('--learning_rate', default=round(initial_lr, 4), type=float)
     parser.add_argument('--work_dir',
-                        default='/ProposedFramework/X3dTShift_RGB_X3dTShiftPose_SE_16F_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU120_XSub')
+                        default='ProposedFramework/X3dTShift_RGB_X3dTShiftPose_SE_16F_CBAM_spatial_efficient_temporal_skip_connection_alignment_NTU120_XSub')
     parser.add_argument("--dataset", type=str, default='ntu120', help="dataset")
     parser.add_argument("--evaluation_protocol", type=str, default='xsub', help="evaluation_protocol")
     print("round(initial_lr,4)", round(initial_lr, 4))
@@ -168,4 +168,4 @@ if __name__ == "__main__":
     world_size = torch.cuda.device_count()
     mp.spawn(main, args=(
     world_size, args.total_epochs, args.batch_size, args.learning_rate, args.save_every, args.work_dir, args.dataset,
-    args.evaluation_protocol), nprocs=world_size)
+    args.evaluation_protocol,ann_file_train,ann_file_val), nprocs=world_size)
