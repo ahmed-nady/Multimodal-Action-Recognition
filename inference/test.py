@@ -61,9 +61,9 @@ if dataset=='ntu60':
     num_classes =60
     if evaluation_protocol=='xsub':
         if rgb_or_pose == 'rgb':
-            ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu60_xsub_train.txt'
-            ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu60_xsub_val.txt'
-            ann_file_test = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu60_xsub_val.txt'
+            ann_file_train = 'ntu60_xsub_train.txt'
+            ann_file_val = 'ntu60_xsub_val.txt'
+            ann_file_test = 'ntu60_xsub_val.txt'
         else:
             ann_file_train = 'ntu60_xview_pose_sim_train.pkl'
             ann_file_val = 'ntu60_xsub_pose_sim_val.pkl'
@@ -71,32 +71,32 @@ if dataset=='ntu60':
 
     else:
         if rgb_or_pose == 'rgb':
-            ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu60_xview_train.txt'
-            ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu60_xview_val.txt'
-            ann_file_test = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu60_xview_val.txt'
+            ann_file_train = 'ntu60_xview_train.txt'
+            ann_file_val = 'ntu60_xview_val.txt'
+            ann_file_test = 'ntu60_xview_val.txt'
         else:
-            ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/ntu60_xview_val.pkl'
+            ann_file_val = 'ntu60_xview_val.pkl'
 elif dataset=='ntu120':
     num_classes = 120
     if evaluation_protocol == 'xsub':
         if rgb_or_pose == 'rgb':
-            ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xsub_train.txt'
-            ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xsub_val.txt'
-            ann_file_test = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xsub_val.txt'
+            ann_file_train = 'ntu120_xsub_train.txt'
+            ann_file_val = 'ntu120_xsub_val.txt'
+            ann_file_test = 'ntu120_xsub_val.txt'
         else:
             pass
     else:
         if rgb_or_pose == 'rgb':
-            ann_file_train = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xset_train.txt'
-            ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xset_val.txt'
-            ann_file_test = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/HumanParsing/ntu120_xset_val.txt'
+            ann_file_train = 'ntu120_xset_train.txt'
+            ann_file_val = 'ntu120_xset_val.txt'
+            ann_file_test = 'ntu120_xset_val.txt'
 
 elif dataset=='pku':
     num_classes = 51
     if evaluation_protocol=='xsub':
-        ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/PKU-MMD/pku_xsub_test.pkl'
+        ann_file_val = 'PKU-MMD/pku_xsub_test.pkl'
     else:
-        ann_file_val = '/home/a0nady01/ActionRecognition/mmaction2/CustomLearning/PKU-MMD/pku_xview_test.pkl'
+        ann_file_val = 'PKU-MMD/pku_xview_test.pkl'
 
 print("evaluation_protocol",evaluation_protocol)
 
@@ -222,8 +222,7 @@ if __name__=='__main__':
         out_pkl_file = 'results/x3dRGB_'+dataset+'_'+evaluation_protocol+'_epoch_200.pkl'
         test_dataLoader = DataLoader(test_data, batch_size, shuffle=False, num_workers=1)
     else:
-        #out_pkl_file = 'out_c3dLaterality_ntu60_xsub.pkl'
-        #out_pkl_file = 'analysis/out_poseX3d_SE_ntu60_xsub.pkl'
+
         out_pkl_file = 'results/x3dTShiftPose_d_chs_'+dataset+'_'+evaluation_protocol+'_best_preds_56x56.pkl'
         test_dataLoader = DataLoader(test_data, batch_size, shuffle=False, num_workers=4)
 
@@ -232,25 +231,25 @@ if __name__=='__main__':
     if rgb_or_pose == 'rgb':
         setting = dataset+'_'+evaluation_protocol
         if setting=='ntu60_xsub':
-            rgb_checkpoint ='/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/epoch_200.pth'
+            rgb_checkpoint ='RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/RGB/epoch_200.pth'
         elif setting=='ntu60_xview':
-            rgb_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/RGB/epoch_190.pth'
+            rgb_checkpoint = 'RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/RGB/epoch_190.pth'
         elif setting =='ntu120_xsub':
-            rgb_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/epoch_205.pth'
+            rgb_checkpoint = 'RGBPosePretrained/spatialTemporalAlignment/NTU120/XSub/RGB/epoch_205.pth'
         model = RGBActionRecognition(num_classes=120)
         load_checkpoint(model, rgb_checkpoint)
     else:
        
         setting = dataset + '_' + evaluation_protocol
         if setting == 'pku_xsub':
-            pose_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/PKU/XSub/Pose/pku_xsub_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
+            pose_checkpoint = 'RGBPosePretrained/spatialTemporalAlignment/PKU/XSub/Pose/pku_xsub_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
         elif setting == 'pku_xview':
-            pose_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/PKU/XView/Pose/pku_xview_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
+            pose_checkpoint = 'RGBPosePretrained/spatialTemporalAlignment/PKU/XView/Pose/pku_xview_XTShiftPose_SE_double_chs_best_top1_acc_epoch_240.pth'
         elif setting=='ntu60_xsub':
-            pose_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/Pose/ntu60_xsub_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_235.pth'
+            pose_checkpoint = 'RGBPosePretrained/spatialTemporalAlignment/NTU60/XSub/Pose/ntu60_xsub_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_235.pth'
         elif setting == 'ntu60_xview':
-            pose_checkpoint = '/home/a0nady01/ActionRecognition/mmaction2/work_dirs/RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/Pose/ntu60_xview_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_230.pth'
-        model = PoseActionRecognition(backbone_type='poseX3dTShiftSE',num_classes=num_classes,conv1_stride=1,num_stages=3)#backbone_type = C3DLateralityPartSubnetFusion or c3d
+            pose_checkpoint = 'RGBPosePretrained/spatialTemporalAlignment/NTU60/XView/Pose/ntu60_xview_x3dTShiftPose_double_shifted_chs_best_top1_acc_epoch_230.pth'
+        model = PoseActionRecognition(backbone_type='poseX3dTShiftSE',num_classes=num_classes,conv1_stride=1,num_stages=3) 
         load_checkpoint(model, pose_checkpoint,rgb=False)
     model = model.to(gpu_id)
     #model.init_weights()
