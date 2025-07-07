@@ -5,11 +5,11 @@ clip_len = 16
 
 # dataset settings
 # dataset_type = 'VideoDataset'
-data_root = '/media/hd1/NADY/ActionRecognitionDatasets/NTU60TSMSpatialAlignment224'
-data_root_val = '/media/hd1/NADY/ActionRecognitionDatasets/NTU60TSMSpatialAlignment224'
+data_root = 'ActionRecognitionDatasets/NTU60TSMSpatialAlignment224'
+data_root_val = 'ActionRecognitionDatasets/NTU60TSMSpatialAlignment224'
 num_classes =120
-data_root = '/media/hd1/NADY/ActionRecognitionDatasets/NTU120TSMSpatialAlignment224'
-data_root_val = '/media/hd1/NADY/ActionRecognitionDatasets/NTU120TSMSpatialAlignment224'
+data_root = 'ActionRecognitionDatasets/NTU120TSMSpatialAlignment224'
+data_root_val = 'ActionRecognitionDatasets/NTU120TSMSpatialAlignment224'
 
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
@@ -64,7 +64,7 @@ import torch
 from torch.utils.data import Dataset
 import numpy as np
 
-class CustomPoseDataset(Dataset):
+class CustomDataset(Dataset):
     def __init__(self,ann_file,mode):
         self.ann_file = ann_file
         self.mode =mode
