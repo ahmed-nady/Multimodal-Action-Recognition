@@ -45,7 +45,7 @@ You may download the trained models reported in the paper via [GoogleDrive](http
 
 You can use the following command to test a multimodal EPAM-Net on NTU 60, NTU 120, PKU and Toyota Smarthome datasets.
 ```shell
-python inference/test_multimodal.py --dataset 'toyota' --evaluation_protocol 'xsub'
+python inference/multimodal_evaluation.py --dataset 'toyota' --evaluation_protocol 'xsub'
 ```
 # Result
 We report the **mean accuracy (%)** for Toyota-Smarthome dataset and **Top-1 accuracy (%)** for other datasets using 1-clip per video.
