@@ -101,10 +101,10 @@ elif dataset=='pku':
 print("evaluation_protocol",evaluation_protocol)
 
 if rgb_or_pose == 'rgb':
-    test_data = dataPrepRGB.CustomPoseDataset(ann_file_val, mode='test')
+    test_data = dataPrepRGB.CustomDataset(ann_file_val, mode='test')
 else:
-    validation_ntu_annos = load(ann_file_val)
-    test_data = dataPrep.CustomPoseDataset(validation_ntu_annos, mode='test')
+    validation_pose_annos = load(ann_file_val)
+    test_data = dataPrep.CustomPoseDataset(validation_pose_annos, mode='test')
 
 
 def evaluate(model, test_dataLoader,batch_size,gpu_id=0):
