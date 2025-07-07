@@ -90,23 +90,19 @@ class CustomPoseDataset(Dataset):
     def setDatasetInfo(self,dataset_name):
         if dataset_name == 'ntu60':
             self.num_classes = 60
-            self.data_root = '/media/hd1/NADY/ActionRecognitionDatasets/NTU60TSMSpatialAlignment224/'
+            self.data_root = 'ActionRecognitionDatasets/NTU60SpatialAlignment224/'
 
         elif dataset_name == 'ntu120':
             self.num_classes = 120
-            self.data_root = '/media/hd1/NADY/ActionRecognitionDatasets/NTU120TSMSpatialAlignment224/'
+            self.data_root = 'ActionRecognitionDatasets/NTU120SpatialAlignment224/'
         elif dataset_name == 'toyota':
             self.num_classes = 31
             #self.num_classes = 19
-            self.data_root = '/media/hd1/NADY/ActionRecognitionDatasets/toyota_smarthome/Trimmed/toyota_smarthome_mp4/SmarthomeSpatialAlignmentGTPoseHRNet224/'
-            #self.data_root = '/media/hd1/NADY/ActionRecognitionDatasets/toyota_smarthome/Trimmed/toyota_smarthome_mp4/SmarthomeSpatialAlignmentOpenpose224/'
-        elif dataset_name == 'ucla':
-            self.num_classes = 10
-            #self.data_root = '/media/hd1/NADY/ActionRecognitionDatasets/N-UCLA/NUCLASpatialAlignmentOpenpose224/'
-            self.data_root = '/media/hd1/NADY/ActionRecognitionDatasets/N-UCLA/NUCLASpatialAlignmentHRNet224/'
+            self.data_root = 'ActionRecognitionDatasets/SmarthomeSpatialAlignmentGTPoseHRNet224/'
+               
         elif dataset_name =='pku':
             self.num_classes = 51
-            self.data_root = '/media/hd1/NADY/ActionRecognitionDatasets/PKUSpatialAlignment224/'
+            self.data_root = 'ActionRecognitionDatasets/PKUSpatialAlignment224/'
     def __len__(self):
         return len(self.video_infos)
 
